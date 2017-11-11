@@ -353,6 +353,15 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:security:1.2">
             <security-domains>
+			                <security-domain name="gumtree-realm" cache-type="default">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/${env.OPENSHIFT_POSTGRESQL_DATASOURCE}"/>
+                            <module-option name="principalsQuery" value="select password from users where email=?"/>
+                            <module-option name="rolesQuery" value="select 'User', 'Roles'  from users  where email=?"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
                 <security-domain name="other" cache-type="default">
                     <authentication>
                         <login-module code="Remoting" flag="optional">
